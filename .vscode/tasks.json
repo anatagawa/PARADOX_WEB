@@ -1,0 +1,34 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "(WIN) build release",
+            "type": "shell",
+            "command": "c:/tcc/make.exe",
+            "args": [
+                "PROJECT_NAME=paradox",
+                "PLATFORM=PLATFORM_WEB"
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "(WIN) build debug",
+            "type": "shell",
+            "command": "c:/tcc/make.exe",
+            "args": [
+                "PROJECT_NAME=paradox",
+                "PLATFORM=PLATFORM_WEB",
+                "DEBUGGING=TRUE"
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}
