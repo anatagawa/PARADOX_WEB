@@ -28,11 +28,6 @@ Music music = { 0 };
 //--------------------------------------------------------------------------------------------------------------
 // Variables
 //--------------------------------------------------------------------------------------------------------------
-float sinx = 0;
-float siny = 0;
-float oldsinx = 0;
-float oldsiny = 0;
-
 const char * text1 =  "    PARADOX PROUDLY PRESENTS    \n" \
 					"        COUNT DUCKULA +         \n" \
 					" TRAINED BY SHAPIRO OF PARADOX  \n" \
@@ -48,10 +43,17 @@ const char * text1 =  "    PARADOX PROUDLY PRESENTS    \n" \
 
 const char *scrollText = "PARADOX PROUDLY PRESENTS -- COUNT DUCKULA + --      TRAINER,INTRO AND MUSIC RIP BY SHAPIRO OF PARADOX              THIS GAME WAS CRACKED BY N.O.M.A.D OF GENESIS                                      TO CONTACT PARADOX CALL THEESE COOL BOARDS          SLEEPY HOLLOW - 703 276 0724        INVOLUNTARY DEATH - 708 599 1537       HALLOWED GROUND - (45) 4343 9398       MIDDLE EARTH - 801 822 4215         PARADOX CANADA - 418 843 5174         THE JUNGLE - 708 983 5764                        OR WRITE TO        BP 110 - 7700 MOUSCRON 1 - BELGIUM             OR         T.N.B. - POST BOX 560 - 2620 ALBERTSLUND - DENMARK             OR          P.O.BOX 2221 - BRIDGEVIEW, IL - 60455 USA              CUL8R                        ";
 
+float sinx = 0;
+float siny = 0;
+float oldsinx = 0;
+float oldsiny = 0;
 int ySin[1024];
 float sinparam = 0;
 float textX = 0;
 int textLen = 0;
+
+float musicVolume = 1.0f;
+float lastMusicVolume = 0.0f;
 
 Starfield2D starfield1;
 Starfield2D starfield2;
@@ -84,6 +86,7 @@ int main() {
 
 	music = LoadMusicStream("resources/zic.mod");
 	PlayMusicStream(music);
+	SetMusicVolume(music, musicVolume);
 
 	starfield1 = Init_Starfield2D(balle1, (Vector2) {-64,-64}, (Vector2) {768,608});
 	starfield2 = Init_Starfield2D(balle2, (Vector2) {-64,-64}, (Vector2) {768,608});
@@ -137,6 +140,21 @@ void UpdateDrawFrame(void) {
 
 	textX -= 2;
 	if(textX < -textLen*16 ) textX = VirtualScreen.x;
+
+	if(IsKeyPressed(KEY_KP_ADD)) {
+		musicVolume += 0.1f;
+	}
+
+	if(IsKeyPressed(KEY_KP_SUBTRACT)) {
+		musicVolume -= 0.1f;
+	}
+
+	musicVolume = Clamp(musicVolume, 0.0f, 1.0f);
+
+	if(lastMusicVolume != musicVolume) {
+		SetMusicVolume(music, musicVolume);
+		lastMusicVolume = musicVolume;
+	}
 
 	// Draw
 	//----------------------------------------------------------------------------------
